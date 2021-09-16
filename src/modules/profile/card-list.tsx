@@ -5,9 +5,9 @@ import { Grid, makeStyles } from "@material-ui/core";
 import { ProfileCard } from "./card";
 import { Profile } from "./types";
 
-const useStyles = makeStyles((theme) => ({
-  cardListContainer: {
-    padding: theme.spacing(6),
+const useStyles = makeStyles(() => ({
+  gridItem: {
+   maxWidth: 500,
   }
 }));
 
@@ -17,18 +17,15 @@ export interface ProfileCardListProps {
 
 export function ProfleCardList(props: ProfileCardListProps): React.ReactElement {
   const { profiles } = props;
-
-  const { cardListContainer } = useStyles();
+  const { gridItem } = useStyles();
 
   return (
-    <Grid container alignItems="center" justifyContent="center" className={cardListContainer}>
-      <Grid container item spacing={2} alignItems="center" justifyContent="center">
-        {profiles.map(profile => (
-          <Grid item>
-            <ProfileCard profile={profile} />
-          </Grid>
-        ))}
-      </Grid>
+    <Grid item container spacing={2} alignItems="center" justifyContent="center">
+      {profiles.map(profile => (
+        <Grid item className={gridItem} xs={12} md={6}>
+          <ProfileCard profile={profile} />
+        </Grid>
+      ))}
     </Grid>
   );
 }

@@ -1,12 +1,8 @@
 import React, { useMemo } from "react";
-import { Avatar, Card, Grid, makeStyles, Typography } from "@material-ui/core";
-
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import LanguageOutlinedIcon from '@material-ui/icons/LanguageOutlined';
-import PhoneEnabledOutlinedIcon from '@material-ui/icons/PhoneEnabledOutlined';
+import { Avatar, Card, Grid, makeStyles } from "@material-ui/core";
 
 import { Profile } from "./types";
+import { ProfileInformationDisplay } from "./information-display";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -24,15 +20,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 150,
     background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
   },
-  informationDisplay: {
-    padding: theme.spacing(2),
-  },
-  h6: {
-    fontWeight: 600,
-  },
-  bold: {
-    fontWeight: 600,
-  },
 }));
 
 export interface ProfileCardProps {
@@ -42,7 +29,7 @@ export interface ProfileCardProps {
 export function ProfileCard(props: ProfileCardProps): React.ReactElement {
   const { profile } = props;
 
-  const { avatar, avatarContainer, bold, card, informationDisplay } = useStyles();
+  const { avatar, avatarContainer, card } = useStyles();
 
   const nameInitials = useMemo(() => {
     return profile.firstName.charAt(0).toUpperCase() + profile.lastName.charAt(0).toUpperCase();
@@ -51,7 +38,7 @@ export function ProfileCard(props: ProfileCardProps): React.ReactElement {
   return (
     <Card className={card}>
       <Grid container>
-        <Grid className={avatarContainer} container justifyContent="center" alignItems="center" item xs={12} sm={4}>
+        <Grid className={avatarContainer} container justifyContent="center" alignItems="center" item xs={12} md={4}>
           <Grid item>
             {profile?.imageUrl
               ? <Avatar className={avatar} src={profile.imageUrl} />
@@ -59,42 +46,8 @@ export function ProfileCard(props: ProfileCardProps): React.ReactElement {
             }
           </Grid>
         </Grid>
-        <Grid container spacing={1} className={informationDisplay} item xs={12} sm={8}>
-          <Grid item xs={12}>
-            <Typography className={bold} variant="h6">{profile.firstName} {profile.lastName}</Typography>
-          </Grid>
-          <Grid container item alignItems="center" spacing={1} xs={12}>
-            <Grid item>
-              <MailOutlineIcon style={{ fontSize: 16 }} />
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle2">{profile.email}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item alignItems="center" spacing={1} xs={12}>
-            <Grid item>
-              <HomeOutlinedIcon style={{ fontSize: 16 }} />
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle2">{profile.address}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item alignItems="center" spacing={1} xs={12}>
-            <Grid item>
-              <PhoneEnabledOutlinedIcon style={{ fontSize: 16 }} />
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle2">{profile.phone}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item alignItems="center" spacing={1} xs={12}>
-            <Grid item>
-              <LanguageOutlinedIcon style={{ fontSize: 16 }} />
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle2">{profile.website}</Typography>
-            </Grid>
-          </Grid>
+        <Grid item xs={12} sm={8}>
+          <ProfileInformationDisplay profile={profile} />
         </Grid>
       </Grid>
     </Card>

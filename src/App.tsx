@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { getMockProfiles } from "./mock/profile";
 
+import { PageLayout } from "./modules/page/page-layout";
 import { ProfleCardList } from "./modules/profile/card-list";
+
+import { getMockProfiles } from "./mock/profile";
 
 function App() {
   const [profiles, setProfiles] = useState(getMockProfiles(10));
 
   return (
-    <ProfleCardList profiles={profiles} />
+    <PageLayout>
+      <ProfleCardList profiles={profiles} />
+    </PageLayout>
   );
 }
 
