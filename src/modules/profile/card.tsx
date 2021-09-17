@@ -6,7 +6,7 @@ import { ProfileInformationDisplay } from "./information-display";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 500,
+    maxWidth: 600,
     minHeight: 150,
     filter: "drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05))",
   },

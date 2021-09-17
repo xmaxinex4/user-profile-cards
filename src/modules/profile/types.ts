@@ -6,4 +6,6 @@ export type Profile = {
     phone: string,
     website: string,
     imageUrl?: string,
+    companyName: string,
+    companyCatchPhrase: string,
 }

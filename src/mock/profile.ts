@@ -1,5 +1,5 @@
 import { Profile } from "../modules/profile/types";
-import { address, phone, internet, name, image } from "faker";
+import { address, phone, internet, name, image, company } from "faker";
 
 export function getMockProfile(): Profile {
     return {
@@ -10,6 +10,8 @@ export function getMockProfile(): Profile {
         phone: phone.phoneNumber(),
         website: internet.url(),
         imageUrl: image.avatar(),
+        companyName: company.companyName(),
+        companyCatchPhrase: company.catchPhrase(),
     }
 }
 
