@@ -1,8 +1,11 @@
-import { Profile } from "../modules/profile/types";
 import { address, phone, internet, name, image, company } from "faker";
+import { v4 as uuidv4 } from "uuid";
+
+import { Profile } from "../modules/profile/types";
 
 export function getMockProfile(): Profile {
     return {
+        id: uuidv4(),
         firstName: name.firstName(),
         lastName: name.lastName(),
         email: internet.email(),

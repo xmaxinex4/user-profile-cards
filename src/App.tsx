@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { Provider } from "react-redux";
 
 import { PageLayout } from "./modules/page/page-layout";
 import { ProfleCardList } from "./modules/profile/card-list";
-
-import { getMockProfiles } from "./mock/profile";
+import store from "./store";
 
 function App() {
-  const [profiles, setProfiles] = useState(getMockProfiles(50));
-
   return (
-    <PageLayout>
-      <ProfleCardList profiles={profiles} pageSize={15} />
-    </PageLayout>
+    <Provider store={store}>
+      <PageLayout>
+        <ProfleCardList pageSize={15} />
+      </PageLayout>
+    </Provider>
   );
 }
 
