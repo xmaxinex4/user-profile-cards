@@ -1,19 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
-import { TextField } from "@material-ui/core";
+import { StandardTextFieldProps, TextField } from "@material-ui/core";
 
-import { Profile } from "../types";
+import { Profile, Address } from "../types";
 
-export interface RequiredFormFieldProps {
-    defaultValue?: string;
-    label: string;
-    onChange: (fieldName: keyof Profile, value: string) => void;
-    fieldName: keyof Profile;
-    isFormValidating: boolean;
+export interface RequiredFormFieldProps extends Omit<StandardTextFieldProps, "onChange"> {
+  defaultValue?: string;
+  label: string;
+  onChange: (fieldName: keyof Profile | keyof Address, value: string) => void;
+  fieldName: keyof Profile | keyof Address;
+  isFormValidating: boolean;
+  maxLength?: number,
 }
 
 export function RequiredFormField(props: RequiredFormFieldProps): React.ReactElement {
-  const { defaultValue, label, onChange, fieldName, isFormValidating } = props;
+  const { defaultValue, label, onChange, fieldName, isFormValidating, maxLength, ...textFieldProps } = props;
 
   const [isInputEmpty, setIsInputEmpty] = useState(false);
 
@@ -25,10 +26,14 @@ export function RequiredFormField(props: RequiredFormFieldProps): React.ReactEle
       } else {
         setIsInputEmpty(true);
       }
-      
+
       onChange(fieldName, event.target.value);
     }, [setIsInputEmpty, fieldName, onChange]
   );
+
+  const inputPropMaxLength = useMemo(() => ({
+    maxLength: maxLength || 50,
+  }), [maxLength]);
 
   return (
     <TextField
@@ -40,6 +45,8 @@ export function RequiredFormField(props: RequiredFormFieldProps): React.ReactEle
       label={label}
       variant="outlined"
       defaultValue={defaultValue || ""}
+      inputProps={inputPropMaxLength}
+      {...textFieldProps}
     />
   );
 }

@@ -14,10 +14,10 @@ import { ProfileCard } from "./card";
 
 const useStyles = makeStyles({
   profileCard: {
-   maxWidth: 600,
+    maxWidth: 700,
   },
   profileCardContainer: {
-    maxWidth: 1200,
+    maxWidth: 1400,
   }
 });
 
@@ -47,7 +47,7 @@ export function ProfileCardList(props: ProfileCardListProps): React.ReactElement
     const lowRangeSlice = pageSize * (page - 1);
     const highRangeSlice = pageSize * page;
 
-    setProfilesToShow(slice(profiles, lowRangeSlice, highRangeSlice))    
+    setProfilesToShow(slice(profiles, lowRangeSlice, highRangeSlice))
   }, [profiles, page, pageSize]);
 
   const onPageChange = useCallback((event: object, page: number) => {

@@ -15,7 +15,7 @@ export function PageLayout(props: { children: ReactNode }): React.ReactElement {
 
   return (
     <div className={pageContainer}>
-        {children}
+      {children}
     </div>
   );
 }

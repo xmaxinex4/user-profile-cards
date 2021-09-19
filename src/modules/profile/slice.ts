@@ -24,13 +24,13 @@ export const profilesSlice = createSlice<ProfilesState, ProfileStateReducers>({
   },
   reducers: {
     add: (state, action: {
-      type: string, 
+      type: string,
       payload: Profile,
     }) => {
       state.profiles.push(action.payload);
     },
     edit: (state, action: {
-      type: string, 
+      type: string,
       payload: Profile,
     }) => {
       const profileIndexLocation = state.profiles.findIndex(profile => profile.id === action.payload.id);

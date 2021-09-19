@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface ProfileModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    profile?: Profile;
+  isOpen: boolean;
+  onClose: () => void;
+  profile?: Profile;
 }
 
 export function ProfileModal(props: ProfileModalProps): React.ReactElement {

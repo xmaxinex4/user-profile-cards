@@ -3,11 +3,12 @@ import React, { useMemo } from "react";
 import { Avatar, Card, Grid, makeStyles } from "@material-ui/core";
 
 import { Profile } from "../types";
-import { ProfileInformationDisplay } from "../information-display";
+
+import { ProfileInformationDisplay } from "./information-display";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 600,
+    maxWidth: 700,
     minHeight: 150,
     filter: "drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05))",
   },
