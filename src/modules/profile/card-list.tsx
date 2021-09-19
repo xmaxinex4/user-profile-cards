@@ -25,7 +25,7 @@ export interface ProfileCardListProps {
   pageSize: number;
 }
 
-export function ProfleCardList(props: ProfileCardListProps): React.ReactElement {
+export function ProfileCardList(props: ProfileCardListProps): React.ReactElement {
   const profiles = useSelector(selectProfiles);
 
   const { pageSize } = props;
