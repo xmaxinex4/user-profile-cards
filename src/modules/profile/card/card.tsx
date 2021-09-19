@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 
 import { Avatar, Card, Grid, makeStyles } from "@material-ui/core";
 
-import { Profile } from "./types";
-import { ProfileInformationDisplay } from "./information-display";
+import { Profile } from "../types";
+import { ProfileInformationDisplay } from "../information-display";
 
 const useStyles = makeStyles((theme) => ({
   card: {

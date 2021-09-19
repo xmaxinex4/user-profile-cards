@@ -6,11 +6,11 @@ import AddIcon from "@material-ui/icons/Add";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
-import { ProfileModal } from "./form/profile-modal";
+import { ProfileModal } from "../modal";
+import { selectProfiles } from "../slice";
+import { Profile } from "../types";
 
 import { ProfileCard } from "./card";
-import { selectProfiles } from "./slice";
-import { Profile } from "./types";
 
 const useStyles = makeStyles({
   profileCard: {

@@ -9,7 +9,7 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import { Grid, IconButton, makeStyles, Typography } from "@material-ui/core";
 
-import { ProfileCardProps } from "./card";
+import { ProfileCardProps } from "./card/card";
 import { IconTypography } from "../typography/icon-typography";
 import { Logo } from "./logo";
 

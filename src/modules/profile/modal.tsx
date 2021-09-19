@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, CardContent, Grid, makeStyles, Modal, Typography } from "@material-ui/core";
 
-import { Profile } from "../types";
-
-import { ProfileForm } from "./profile-form";
+import { ProfileForm } from "./form/form";
+import { Profile } from "./types";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
