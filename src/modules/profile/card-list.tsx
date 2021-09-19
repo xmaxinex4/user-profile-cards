@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { slice } from "lodash";
 
+import AddIcon from "@material-ui/icons/Add";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
 import { ProfileModal } from "./form/profile-modal";
+
 import { ProfileCard } from "./card";
 import { selectProfiles } from "./slice";
+import { Profile } from "./types";
 
 const useStyles = makeStyles({
   profileCard: {
@@ -28,11 +31,13 @@ export function ProfleCardList(props: ProfileCardListProps): React.ReactElement 
   const { pageSize } = props;
   const { profileCard, profileCardContainer } = useStyles();
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [profilesToShow, setProfilesToShow] = useState(
     slice(profiles, 0, pageSize)
   );
+
+  const [editingProfile, setEditingProfile] = useState<Profile>();
 
   // States to handle page navigation
   const [page, setPage] = useState(1);
@@ -59,30 +64,36 @@ export function ProfleCardList(props: ProfileCardListProps): React.ReactElement 
     return count || 1;
   }, [profiles, pageSize]);
 
-  const openAddProfileModal = useCallback(() => {
-    setIsAddModalOpen(true);
-  }, [setIsAddModalOpen]);
+  const onProfileEdit = useCallback((profile: Profile) => {
+    setEditingProfile(profile);
+    setIsModalOpen(true);
+  }, []);
 
-  const closeAddProfileModal = useCallback(() => {
-    setIsAddModalOpen(false);
-  }, [setIsAddModalOpen]);
+  const openAddProfileModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, [setIsModalOpen]);
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setEditingProfile(undefined);
+  }, [setIsModalOpen]);
 
   return (
     <Grid container direction="column" alignItems="center" spacing={4}>
       <Grid item>
-        <Button variant="contained" color="secondary" onClick={openAddProfileModal}>Add Profile</Button>
+        <Button startIcon={<AddIcon />} variant="contained" color="secondary" onClick={openAddProfileModal}>Add Profile</Button>
       </Grid>
       <Grid item container className={profileCardContainer} spacing={2} alignItems="center" justifyContent="center">
         {profilesToShow.map(profile => (
           <Grid item className={profileCard} xs={12} md={6} key={profile.id}>
-            <ProfileCard profile={profile} />
+            <ProfileCard onEdit={onProfileEdit} profile={profile} />
           </Grid>
         ))}
       </Grid>
       <Grid item>
         <Pagination onChange={onPageChange} count={pageCount} size="large" color="secondary" showFirstButton showLastButton />
       </Grid>
-      <ProfileModal isOpen={isAddModalOpen} onClose={closeAddProfileModal} />
+      <ProfileModal profile={editingProfile} isOpen={isModalOpen} onClose={closeModal} />
     </Grid>
   );
 }

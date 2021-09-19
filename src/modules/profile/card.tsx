@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+
 import { Avatar, Card, Grid, makeStyles } from "@material-ui/core";
 
 import { Profile } from "./types";
@@ -24,10 +25,11 @@ const useStyles = makeStyles((theme) => ({
 
 export interface ProfileCardProps {
   profile: Profile;
+  onEdit: (profile: Profile) => void;
 }
 
 export function ProfileCard(props: ProfileCardProps): React.ReactElement {
-  const { profile } = props;
+  const { profile, onEdit } = props;
 
   const { avatar, avatarContainer, card } = useStyles();
 
@@ -46,8 +48,8 @@ export function ProfileCard(props: ProfileCardProps): React.ReactElement {
             }
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={8}>
-          <ProfileInformationDisplay profile={profile} />
+        <Grid item xs={12} md={8}>
+          <ProfileInformationDisplay onEdit={onEdit} profile={profile} />
         </Grid>
       </Grid>
     </Card>

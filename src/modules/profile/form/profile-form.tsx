@@ -6,7 +6,7 @@ import { image } from "faker";
 import { Button, Checkbox, FormControlLabel, Grid, makeStyles } from "@material-ui/core";
 
 import { Profile } from "../types";
-import { add } from "../slice";
+import { add, edit } from "../slice";
 
 import { RequiredFormField } from "./required-form-field";
 
@@ -71,7 +71,8 @@ export function ProfileForm(props: ProfileFormProps): React.ReactElement {
     if (isValidForm) {
       if (form.id) { 
         // if profile has an id, it already exists and should be edited
-        // dispatch(edit(profileForm));
+        dispatch(edit(form));
+        onClose();
       } else { 
         // if there is no id, we need to make a new profile
         dispatch(
