@@ -44,16 +44,12 @@ export function ProfleCardList(props: ProfileCardListProps): React.ReactElement 
   const pageCount = useMemo(() => {
     let count = Math.floor(profiles.length / pageSize);
 
-    if (profiles.length % pageSize != 0) {
+    if (profiles.length % pageSize !== 0) {
       count++; // We need an extra page for the remainder of profiles
     }
 
     return count || 1;
-  }, [profiles]);
-
-  const onAddProfile = useCallback(() => {
-    // TODO: Dispatch Add Profile
-  }, []);
+  }, [profiles, pageSize]);
 
   const openAddProfileModal = useCallback(() => {
     setIsAddModalOpen(true);

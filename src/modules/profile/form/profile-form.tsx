@@ -1,13 +1,16 @@
 import React, { FormEvent, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import { image } from "faker";
 
-import { Button, Checkbox, FormControlLabel, Grid, makeStyles, TextField } from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, Grid, makeStyles } from "@material-ui/core";
 
 import { Profile } from "../types";
+import { add } from "../slice";
+
+import { RequiredFormField } from "./required-form-field";
 
 const useStyles = makeStyles({
-  input: {
-    width: "100%",
-  },
   formControl: {
     width: "100%",
     margin: "auto",
@@ -17,122 +20,147 @@ const useStyles = makeStyles({
 
 export interface ProfileFormProps {
     profile?: Profile;
-    onCancel: () => void;
+    onClose: () => void;
 }
 
 export function ProfileForm(props: ProfileFormProps): React.ReactElement {
-  const { profile, onCancel } = props;
-  const { input, formControl } = useStyles();
+  const { profile, onClose } = props;
+  const { formControl } = useStyles();
 
-  const [generateProfilePicture, setGenerateProfilePicture] = useState(!!profile?.imageUrl);
+  const dispatch = useDispatch();
+  
+  const [isValidating, setIsValidating] = useState(false);
+  const [generateProfilePicture, setGenerateProfilePicture] = useState(false);
 
   const onGenerateProfilePictureChange = useCallback(
     () => setGenerateProfilePicture(!generateProfilePicture),
     [setGenerateProfilePicture, generateProfilePicture]
   );
 
-  const onSave = useCallback((event: FormEvent) => {
-    event.preventDefault();
-    console.log("event: ", event);
-  }, []); // dispatch save new profile or edit profile if profile is present then close modal
-
-  const [values, setValues] = React.useState({
-    name: '',
-    email: '',
-    months: ''
+  const [form, setForm] = useState<Profile>({
+    ...profile || {
+      id: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      address: "",
+      phone: "",
+      website: "",
+      companyName: "",
+      companyCatchPhrase: "",
+      imageUrl: "",
+    }
   });
 
-  // const onChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setInputState(e.target.value);
+  const onInputChange = useCallback((fieldName: keyof Profile, value: string) => {
+    setForm({
+      ...form,
+      [fieldName]: value,
+    })
+  },[form, setForm]);
 
-  //   if (onInputChange) {
-  //     onInputChange(e);
-  //   }
-  // };
+  const onSave = useCallback((event: FormEvent) => {
+    event.preventDefault();
+
+    // handle validation    
+    const requiredFields: (keyof Profile)[] = ["firstName", "lastName", "email", "address" , "phone", "website", "companyName", "companyCatchPhrase"];
+
+    setIsValidating(true);
+    const isValidForm = requiredFields.every(requiredField => form[requiredField]);
+
+    if (isValidForm) {
+      if (form.id) { 
+        // if profile has an id, it already exists and should be edited
+        // dispatch(edit(profileForm));
+      } else { 
+        // if there is no id, we need to make a new profile
+        dispatch(
+          add({
+            ...form,
+            id: uuidv4(),
+            imageUrl: generateProfilePicture ? image.avatar() : form.imageUrl,
+          } as Profile)
+        );
+
+        onClose();
+      }
+    }
+  }, [form, setIsValidating, generateProfilePicture, dispatch, onClose]);
 
   return (
     <form noValidate autoComplete="off" onSubmit={onSave}>
       <Grid container>
         <Grid container item spacing={3} justifyContent="center">
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="First Name"
-                  variant="outlined"
-                  defaultValue={profile?.firstName || ""}
+              <RequiredFormField
+                onChange={onInputChange}
+                fieldName="firstName"
+                label="First Name"
+                defaultValue={profile?.firstName || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Last Name"
-                  variant="outlined"
-                  defaultValue={profile?.lastName || ""}
-              />
-          </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Email"
-                  variant="outlined"
-                  defaultValue={profile?.email || ""}
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="lastName"
+                label="Last Name"
+                defaultValue={profile?.lastName || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Address"
-                  variant="outlined"
-                  defaultValue={profile?.address || ""}
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="email"
+                label="Email"
+                defaultValue={profile?.email || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Phone"
-                  variant="outlined"
-                  defaultValue={profile?.phone || ""}
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="address"
+                label="Address"
+                defaultValue={profile?.address || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Website"
-                  variant="outlined"
-                  defaultValue={profile?.website || ""}
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="phone"
+                label="Phone"
+                defaultValue={profile?.phone || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  className={input}
-                  error={false}
-                  label="Company Name"
-                  variant="outlined"
-                  defaultValue={profile?.companyName || ""}
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="website"
+                label="Website"
+                defaultValue={profile?.website || ""}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                  required
-                  fullWidth
-                  error={false}
-                  label="Company Motto"
-                  variant="outlined"
-                  defaultValue={profile?.companyCatchPhrase || ""}
+              <RequiredFormField
+                onChange={onInputChange}
+                fieldName="companyName"
+                label="Company Name"
+                defaultValue={profile?.companyName || ""}
+                isFormValidating={isValidating}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <RequiredFormField 
+                onChange={onInputChange}
+                fieldName="companyCatchPhrase"
+                label="Company Motto" 
+                defaultValue={profile?.companyCatchPhrase}
+                isFormValidating={isValidating}
               />
             </Grid>
             <Grid item xs={12}>
@@ -146,11 +174,11 @@ export function ProfileForm(props: ProfileFormProps): React.ReactElement {
                     color="primary"
                   />
                 }
-                label="Generate Profile Picture?"
+                label={`Generate ${profile?.id ? "New" : ""} Profile Picture?`}
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <Button fullWidth variant="outlined" color="primary" onClick={onCancel}>Cancel</Button>
+              <Button fullWidth variant="outlined" color="primary" onClick={onClose}>Cancel</Button>
             </Grid>
             <Grid item xs={12} md={6}>
               <Button type="submit" fullWidth variant="contained" color="primary">Save</Button>

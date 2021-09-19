@@ -44,7 +44,7 @@ export function ProfileModal(props: ProfileModalProps): React.ReactElement {
           </Grid>
           <Grid item>
             <CardContent className={cardContent}>
-              <ProfileForm profile={profile} onCancel={onClose} />
+              <ProfileForm profile={profile} onClose={onClose} />
             </CardContent>
           </Grid>
         </Grid>
