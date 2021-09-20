@@ -16,7 +16,7 @@ export interface RequiredFormFieldProps extends Omit<StandardTextFieldProps, "on
 export function RequiredFormField(props: RequiredFormFieldProps): React.ReactElement {
   const { defaultValue, label, onChange, fieldName, isFormValidating, maxLength, ...textFieldProps } = props;
 
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [isInputEmpty, setIsInputEmpty] = useState(!defaultValue);
 
   const onInputChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
