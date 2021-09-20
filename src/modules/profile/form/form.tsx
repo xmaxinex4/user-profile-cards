@@ -171,6 +171,7 @@ export function ProfileForm(props: ProfileFormProps): React.ReactElement {
               label="Website"
               defaultValue={profile?.website || ""}
               isFormValidating={isValidating}
+              placeholder="https://yourWebsite.com"
             />
           </Grid>
           <Grid item xs={12}>

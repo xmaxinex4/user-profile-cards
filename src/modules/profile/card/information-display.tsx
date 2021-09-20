@@ -58,7 +58,7 @@ export function ProfileInformationDisplay(props: ProfileInformationDisplayProps)
           <IconTypography icon={PhoneEnabledOutlinedIcon} displayText={phone} />
         </Grid>
         <Grid item xs={12}>
-          <IconTypography icon={LanguageOutlinedIcon} displayText={website} />
+          <IconTypography icon={LanguageOutlinedIcon} linkUrl={website} displayText={website} />
         </Grid>
       </Grid>
       <Grid item xs={12}>

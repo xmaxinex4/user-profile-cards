@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, makeStyles, SvgIconTypeMap, Theme, Typography, TypographyVariant } from "@material-ui/core";
+import { Grid, Link, makeStyles, SvgIconTypeMap, Theme, Typography, TypographyVariant } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 
 const useStyles = makeStyles<Theme, { iconSize?: number }>((theme) => ({
@@ -15,10 +15,11 @@ export interface IconTypographyProps {
   iconSize?: number;
   variant?: TypographyVariant;
   displayText: string;
+  linkUrl?: string;
 }
 
 export function IconTypography(props: IconTypographyProps) {
-  const { icon: Icon, iconSize, displayText, variant } = props;
+  const { icon: Icon, iconSize, displayText, variant, linkUrl } = props;
 
   const { icon } = useStyles({ iconSize });
 
@@ -28,7 +29,12 @@ export function IconTypography(props: IconTypographyProps) {
         <Icon className={icon} />
       </Grid>
       <Grid item>
-        <Typography variant={variant || "h6"}>{displayText}</Typography>
+        <Typography variant={variant || "h6"}>
+          {linkUrl
+            ? <Link href={linkUrl} >{displayText}</Link>
+            : displayText
+          }
+        </Typography>
       </Grid>
     </Grid>
   );
