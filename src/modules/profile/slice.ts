@@ -20,7 +20,7 @@ export type ProfileStateReducers = {
 export const profilesSlice = createSlice<ProfilesState, ProfileStateReducers>({
   name: 'profiles',
   initialState: {
-    profiles: getMockProfiles(4),
+    profiles: getMockProfiles(18),
   },
   reducers: {
     add: (state, action: {
